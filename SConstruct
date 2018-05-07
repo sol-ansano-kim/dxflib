@@ -12,7 +12,7 @@ dxflib_static = (excons.GetArgument("dxflib-static", 0, int) != 0)
 defs = []
 prjs = []
 
-
+cppflags = ""
 if sys.platform != "win32":
     cppflags = " -Wno-unused-private-field"
 
@@ -22,11 +22,14 @@ if not dxflib_static:
 
 
 def DxflibName():
-    return "libdxf"
+    return "dxf"
 
 
 def DxflibPath():
-    libname = DxflibName() + (".a" if dxflib_static else excons.SharedLibraryLinkExt())
+    if sys.platform == "win32":
+        return out_libdir + "/" + DxflibName() + ".lib"
+
+    libname = "lib" + DxflibName() + (".a" if dxflib_static else excons.SharedLibraryLinkExt())
 
     return out_libdir + "/" + libname
 
