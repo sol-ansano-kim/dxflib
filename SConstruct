@@ -15,6 +15,8 @@ prjs = []
 cppflags = ""
 if sys.platform != "win32":
     cppflags = " -Wno-unused-private-field"
+else:
+    cppflags = " -wd4458 -wd4267 -wd4244"
 
 if not dxflib_static:
     defs.append("DXFLIB_DLL")
