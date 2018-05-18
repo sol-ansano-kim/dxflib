@@ -1,0 +1,5 @@
+release/
+debug/
+.sconsign.dblite
+.build/
+excons.cache

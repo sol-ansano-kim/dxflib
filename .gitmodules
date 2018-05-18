@@ -1,0 +1,3 @@
+[submodule "excons"]
+	path = excons
+	url = https://github.com/gatgui/excons
