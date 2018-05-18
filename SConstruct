@@ -68,3 +68,7 @@ for ed in os.listdir("examples"):
 
 
 excons.DeclareTargets(env, prjs)
+
+
+excons.Default("dxf")
+
