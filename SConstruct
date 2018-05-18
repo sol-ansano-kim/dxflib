@@ -69,6 +69,6 @@ for ed in os.listdir("examples"):
 
 excons.DeclareTargets(env, prjs)
 
+excons.Export("DxflibName DxflibPath RequireDxflib")
 
 excons.Default("dxf")
-
