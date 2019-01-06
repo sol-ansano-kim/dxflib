@@ -8,7 +8,7 @@ env = excons.MakeBaseEnv()
 out_libdir = excons.OutputBaseDirectory() + "/lib"
 out_incdir = excons.OutputBaseDirectory() + "/include"
 dxflib_static = (excons.GetArgument("dxflib-static", 0, int) != 0)
-use_c11 = (excons.GetArgument("dxflib-c11", 0, int) != 0)
+use_c11 = (excons.GetArgument("dxflib-c11", 1, int) != 0)
 
 
 defs = []
@@ -59,7 +59,7 @@ prjs.append({"name": "dxf",
              "install": {out_incdir: excons.glob("src/*.h")},
              "srcs": excons.glob("src/*.cpp")})
 
-prjs.append({"name": "pydxf",
+prjs.append({"name": "_pydxf",
              "type": "dynamicmodule",
              "ext": python.ModuleExtension(),
              "alias": "dxflib-bind",
@@ -90,3 +90,6 @@ excons.DeclareTargets(env, prjs)
 excons.Export("DxflibName DxflibPath RequireDxflib")
 
 excons.Default("dxf")
+
+excons.Default("dxflib-bind")
+

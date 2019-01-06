@@ -61,7 +61,7 @@ void bindDXF(pybind11::module mod)
 }
 
 
-PYBIND11_MODULE(pydxf, mod)
+PYBIND11_MODULE(_pydxf, mod)
 {
     bindDXF(mod);
 }
