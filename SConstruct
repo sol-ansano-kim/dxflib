@@ -1,4 +1,5 @@
 import excons
+from excons.tools import python
 import sys
 import os
 
@@ -7,6 +8,7 @@ env = excons.MakeBaseEnv()
 out_libdir = excons.OutputBaseDirectory() + "/lib"
 out_incdir = excons.OutputBaseDirectory() + "/include"
 dxflib_static = (excons.GetArgument("dxflib-static", 0, int) != 0)
+use_c11 = (excons.GetArgument("dxflib-c11", 0, int) != 0)
 
 
 defs = []
@@ -14,7 +16,9 @@ prjs = []
 
 cppflags = ""
 if sys.platform != "win32":
-    cppflags = " -Wno-unused-private-field"
+    cppflags = " -Wno-unused-private-field -Wno-unused-parameter -Wno-deprecated-register"
+    if use_c11:
+        cppflags += " -std=c++11"
 else:
     cppflags = " -wd4458 -wd4267 -wd4244"
 
@@ -54,6 +58,20 @@ prjs.append({"name": "dxf",
              "incdirs": [out_incdir],
              "install": {out_incdir: excons.glob("src/*.h")},
              "srcs": excons.glob("src/*.cpp")})
+
+prjs.append({"name": "pydxf",
+             "type": "dynamicmodule",
+             "ext": python.ModuleExtension(),
+             "alias": "dxflib-bind",
+             "prefix": "py",
+             "defs": [] if dxflib_static else ["DXFLIB_DLL"],
+             "symvis": "default",
+             "cppflags": cppflags,
+             "incdirs": [out_incdir, "pybind11/include"],
+             "srcs": excons.glob("bind/*.cpp"),
+             "rpath": out_libdir,
+             "custom": [RequireDxflib, python.SoftRequire]
+             })
 
 
 for ed in os.listdir("examples"):
