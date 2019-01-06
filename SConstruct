@@ -70,7 +70,8 @@ prjs.append({"name": "_pydxf",
              "incdirs": [out_incdir, "pybind11/include"],
              "srcs": excons.glob("bind/*.cpp"),
              "rpath": out_libdir,
-             "custom": [RequireDxflib, python.SoftRequire]
+             "custom": [RequireDxflib, python.SoftRequire],
+             "install": {excons.OutputBaseDirectory() + "/py": excons.glob("bind/*.py")}
              })
 
 

@@ -5,21 +5,25 @@ import os
 
 def read_text(path, codec="sjis"):
     lines = []
+    res = []
+
     with open(path, "r") as f:
         lines = f.readlines()
 
-    temp_path = path + str(uuid.uuid4().int)
-    with open(temp_path, "w") as f:
-        for l in lines:
-            if codec:
+    if codec:
+        temp_path = path + str(uuid.uuid4().int)
+        with open(temp_path, "w") as f:
+            for l in lines:
                 try:
                     l = l.decode(codec).encode("utf8")
                 except:
                     pass
 
-            f.write(l)
+                f.write(l)
 
-    res = _pydxf.read_text(temp_path)
-    os.remove(temp_path)
+        res = _pydxf.read_text(temp_path)
+        os.remove(temp_path)
+    else:
+        res = _pydxf.read_text(path)
 
     return res
